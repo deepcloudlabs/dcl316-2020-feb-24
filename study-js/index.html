@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study JS</title>
+    <script type="text/javascript">
+        //let o = { x: 1, y: 2, radius: 100};
+        o = {}
+        o.x = 1;
+        o.y = 2;
+        o.radius = 100;
+        o.area = function () {
+            return Math.PI * this.radius * this.radius;
+        }
+        console.log(o.x)
+        console.log(o['y'])
+        console.log(o.radius)
+        console.log(o.area())
+        for (let prop in o) {
+            if (typeof o[prop] == "function")
+                console.log(prop + ": " + o[prop]());
+            else
+                console.log(prop + ": " + o[prop]);
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

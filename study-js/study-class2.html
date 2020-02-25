@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Class</title>
+    <script type="text/javascript">
+        class Employee {
+            constructor(identity, fullname) {
+                this.identity = identity;
+                this.fullname = fullname;
+                this.sayHello = this.sayHello.bind(this);
+            }
+
+            sayHello = () => {
+                console.log(`Hello, ${this.fullname}!`)
+            }
+        }
+
+        let jack = new Employee("1", "Jack Bauer");
+        window.fullname = "Kate Austen";
+        window.setTimeout(jack.sayHello, 3000);
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

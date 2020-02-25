@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Array</title>
+    <script type="text/javascript">
+        let numbers1 = [4, 16, 42, 23, 8, 15];
+        let numbers2 = new Array(4, 16, 42, 23, 8, 15);
+        let numbers3 = new Array(4);
+        console.log(numbers1.length)
+        console.log(numbers2.length)
+        console.log(numbers3.length)
+        for (let i = 0; i < numbers1.length; ++i)
+            console.log(numbers1[i]);
+        for (let i in numbers1)
+            console.log(numbers1[i]);
+        for (let x of numbers1)
+            console.log(x);
+        numbers1.sort((x, y) => x - y); // asc
+        numbers1.sort((x, y) => y - x); //desc
+    </script>
+</head>
+<body>
+
+</body>
+</html>

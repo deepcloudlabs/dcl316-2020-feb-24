@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Class</title>
+    <script type="text/javascript">
+        let Circle = function (x, y, radius) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.area = function () {
+                return Math.PI * this.radius
+                    * this.radius;
+            }
+        };
+        let c1 = new Circle(1, 2, 100);
+
+        class Cember { // ES6
+            constructor(x, y, radius) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+            }
+
+            area() {
+                return Math.PI * this.radius
+                    * this.radius;
+            }
+        }
+
+        let c2 = new Cember(1, 2, 100);
+        console.log(c1.area())
+        console.log(c2.area())
+        c1.color = "Red";
+        let c3 = new Circle(1, 1, 200);
+        console.log(c1.hasOwnProperty('color'));
+        console.log(c3.color);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
