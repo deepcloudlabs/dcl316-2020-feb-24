@@ -8,19 +8,20 @@ class Move {
 class GameViewModel {
     constructor() {
         this.secret = createSecret();
-        this.tries = 0;
-        this.counter = 60;
-        this.moves = [];
+        this.tries = ko.observable(0);
+        this.counter = ko.observable(60);
+        this.moves = ko.observableArray([]);
+        this.guess = ko.observable("123");
     }
 
-    play = (guess) => {
-        this.tries++;
-        if (Number(guess) === this.secret) {
+    play = () => {
+        this.tries(this.tries() + 1);
+        if (Number(this.guess()) === this.secret) {
             this.initGame();
-            this.moves.push(new Move(guess, "You win!"));
+            this.moves.push(new Move(this.guess(), "You win!"));
         } else {
-            let message = this.createMessage(guess);
-            this.moves.push(new Move(guess, message));
+            let message = this.createMessage(this.guess());
+            this.moves.push(new Move(this.guess(), message));
         }
     }
 
@@ -52,15 +53,15 @@ class GameViewModel {
     }
 
     initGame = () => {
-        this.moves = [];
-        this.tries = 0;
-        this.counter = 60;
+        this.moves([]);
+        this.tries(0);
+        this.counter(60);
         this.secret = createSecret();
     }
 
     countDown = () => {
-        this.counter--;
-        if (this.counter <= 0) {
+        this.counter(this.counter() - 1);
+        if (this.counter() <= 0) {
             let move =
                 new Move(this.secret, "You lose!");
             this.initGame();
