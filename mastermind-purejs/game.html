@@ -11,6 +11,11 @@
     </style>
     <script type="text/javascript" src="js/lib/jquery-1.11.3.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.js"></script>
+    <script src="js/number-util.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/app.js"></script>
+
+
 </head>
 <body>
 <p/>
@@ -25,7 +30,7 @@
                 <span id="tries" class="badge">New game</span>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped"
-                         id="pb-tries"
+                         id="pbCounter"
                          role="progressbar"
                          aria-valuenow="0"
                          aria-valuemin="0"
@@ -42,7 +47,7 @@
                        class="form-control"/>
             </div>
             <div class="form-group">
-                <button class="btn btn-success">Play</button>
+                <button id="play" class="btn btn-success">Play</button>
             </div>
         </div>
     </div>
@@ -51,14 +56,14 @@
             <h3 class="panel-title">Moves</h3>
         </div>
         <div class="panel-body">
-            <table class="table table-striped" id="movies">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Guess</th>
                     <th>Evaluation</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="moves">
                 </tbody>
             </table>
         </div>

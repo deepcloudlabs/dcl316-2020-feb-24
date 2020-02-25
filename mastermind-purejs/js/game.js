@@ -3,7 +3,6 @@ class Move {
         this.guess = guess;
         this.message = message;
     }
-
 }
 
 class GameViewModel {
@@ -50,5 +49,22 @@ class GameViewModel {
         if (perfectMatch > 0)
             message += "+" + perfectMatch;
         return message;
+    }
+
+    initGame = () => {
+        this.moves = [];
+        this.tries = 0;
+        this.counter = 60;
+        this.secret = createSecret();
+    }
+
+    countDown = () => {
+        this.counter--;
+        if (this.counter <= 0) {
+            let move =
+                new Move(this.secret, "You lose!");
+            this.initGame();
+            this.moves.push(move);
+        }
     }
 }
