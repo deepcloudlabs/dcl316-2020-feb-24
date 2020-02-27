@@ -1,5 +1,6 @@
 package com.example.hr.service;
 
+import com.example.hr.dto.EmployeeUpdateRequest;
 import com.example.hr.entity.Employee;
 import com.example.hr.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,23 @@ public class EmployeeService {
                  .getContent();
     }
 
+    @Transactional(rollbackFor = IllegalArgumentException.class)
+    public Employee updateEmployee(String identity, EmployeeUpdateRequest employee) {
+        Optional<Employee> emp =
+                empRepo.findOneByIdentity(identity);
+        if(!emp.isPresent())
+            throw new IllegalArgumentException(
+                    "Cannot find employee to update!");
+        Employee managed = emp.get();
+        managed.setIban(employee.getIban());
+        managed.setSalary(employee.getSalary());
+        managed.setPhoto(employee.getPhoto());
+        managed.setFulltime(employee.isFulltime());
+        managed.setDepartment(employee.getDepartment());
+    //    empRepo.save(managed);
+        return managed;
+    }
+
     @Transactional
     public Employee addEmployee(Employee emp) {
         Optional<Employee> employee =
@@ -35,6 +53,7 @@ public class EmployeeService {
         empRepo.save(emp);
         return emp;
     }
+
 }
 
 

@@ -1,5 +1,6 @@
 package com.example.hr.controller;
 
+import com.example.hr.dto.EmployeeUpdateRequest;
 import com.example.hr.entity.Employee;
 import com.example.hr.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,13 @@ public class EmployeeRestController {
     @Autowired
     private EmployeeService empSrv;
 
+    @PutMapping("{identity}")
+    public Employee updateEmployee(
+            @RequestBody EmployeeUpdateRequest employee,
+            @PathVariable String identity){
+        return empSrv.updateEmployee(identity,employee);
+    }
+
     @PostMapping
     public Employee createEmployee(@RequestBody Employee emp){
         return empSrv.addEmployee(emp);
@@ -25,15 +33,13 @@ public class EmployeeRestController {
 
     // http://localhost:7001/hr/api/v1/employees?page=10&size=25
     @GetMapping
-    public List<Employee> getEmployees(
-            @RequestParam int page,@RequestParam int size){
+    public List<Employee> getEmployees(@RequestParam int page,@RequestParam int size){
         return empSrv.findEmployees(page,size);
     }
 
     // http://localhost:7001/hr/api/v1/employees/12345678910
     @GetMapping("{identity}")
-    public Employee getEmployeeByIdentity(
-            @PathVariable String identity){
+    public Employee getEmployeeByIdentity(@PathVariable String identity){
         return empSrv.findEmpByIdentity(identity);
     }
 }
