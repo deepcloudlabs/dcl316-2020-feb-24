@@ -9,29 +9,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class EmployeeService {
-    @Autowired private EmployeeRepository empRepo;
+    @Autowired
+    private EmployeeRepository empRepo;
 
     public Employee findEmpByIdentity(String identity) {
         return empRepo.findOneByIdentity(identity)
                 .orElseThrow(
-                    () -> new IllegalArgumentException(
-                            "Cannot find employee!"));
+                        () -> new IllegalArgumentException(
+                                "Cannot find employee!"));
     }
 
     public List<Employee> findEmployees(int page, int size) {
-         return empRepo.findAll(PageRequest.of(page,size))
-                 .getContent();
+        return empRepo.findAll(PageRequest.of(page, size))
+                .getContent();
     }
 
     @Transactional(rollbackFor = IllegalArgumentException.class)
     public Employee updateEmployee(String identity, EmployeeUpdateRequest employee) {
         Optional<Employee> emp =
                 empRepo.findOneByIdentity(identity);
-        if(!emp.isPresent())
+        if (!emp.isPresent())
             throw new IllegalArgumentException(
                     "Cannot find employee to update!");
         Employee managed = emp.get();
@@ -40,7 +42,7 @@ public class EmployeeService {
         managed.setPhoto(employee.getPhoto());
         managed.setFulltime(employee.isFulltime());
         managed.setDepartment(employee.getDepartment());
-    //    empRepo.save(managed);
+        //    empRepo.save(managed);
         return managed;
     }
 
@@ -58,12 +60,31 @@ public class EmployeeService {
     public Employee deleteEmpByIdentity(String identity) {
         Optional<Employee> emp =
                 empRepo.findOneByIdentity(identity);
-        if(!emp.isPresent())
-          throw new IllegalArgumentException(
-                     "Cannot find employee to delete!");
+        if (!emp.isPresent())
+            throw new IllegalArgumentException(
+                    "Cannot find employee to delete!");
         Employee employee = emp.get();
         empRepo.delete(employee);
         return employee;
+    }
+
+    @Transactional
+    public Employee patchEmployee(String identity,
+                                  Map<String, Object> request) {
+        Optional<Employee> emp = empRepo.findOneByIdentity(identity);
+        if (!emp.isPresent()) throw new IllegalArgumentException("Cannot find employee to patch!");
+        Employee managed = emp.get();
+        request.forEach((key, value) -> {
+            switch (key) {
+                case "salary":
+                    managed.setSalary((Double) value);
+                    break;
+                case "iban":
+                    managed.setIban(value.toString());
+                    break;
+            }
+        });
+        return managed;
     }
 }
 

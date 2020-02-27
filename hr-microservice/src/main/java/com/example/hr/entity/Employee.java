@@ -1,8 +1,14 @@
 package com.example.hr.entity;
 
+import com.example.hr.validation.Iban;
+import com.example.hr.validation.TcKimlikNo;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -12,15 +18,21 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @TcKimlikNo
     private String identity;
+    @Size(min=3)
     private String fullname;
+    @Min(2700)
     private double salary;
+    @Iban
     private String iban;
     @Lob
     @Column(columnDefinition = "longblob")
     private byte[] photo;
     @Column(name="birth_year")
+    @Max(2004)
     private int birthYear;
+    @AssertTrue
     private boolean fulltime;
     @Enumerated(EnumType.STRING)
     private Department department;
