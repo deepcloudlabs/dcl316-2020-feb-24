@@ -8,15 +8,12 @@
         @import url('css/bootstrap.css');
         @import url('css/bootstrap-theme.css');
     </style>
-
     <script src="js/lib/knockout-3.5.1.debug.js"></script>
     <script type="text/javascript" src="js/lib/jquery-1.11.3.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.js"></script>
     <script src="js/number-util.js"></script>
     <script src="js/game.js"></script>
     <script src="js/app.js"></script>
-
-
 </head>
 <body>
 <p/>
@@ -28,33 +25,19 @@
         <div class="panel-body">
             <div class="form-group">
                 <label for="tries">Tries</label>
-                <span id="tries"
-                      data-bind="text: tries"
-                      class="badge">New game</span>
+                <span id="tries" data-bind="text: tries" class="badge">New game</span>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-danger"
-                         id="pbCounter"
-                         role="progressbar"
-                         data-bind="style: {width: pbWidth}, attr: {class: pbClass}"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="16"
-                         style="width: 100%;"></div>
+                    <div class="progress-bar progress-bar-danger" id="pbCounter" role="progressbar"
+                         data-bind="style: {width: pbWidth}, attr: {class: pbClass}" aria-valuenow="0" aria-valuemin="0"
+                         aria-valuemax="16" style="width: 100%;"></div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="guess">Guess</label>
-                <input type="number"
-                       data-bind="value: guess"
-                       id="guess"
-                       min="123"
-                       max="987"
-                       class="form-control"/>
+                <input type="number" data-bind="value: guess" id="guess" min="123" max="987" class="form-control"/>
             </div>
             <div class="form-group">
-                <button id="play"
-                        data-bind="click: play"
-                        class="btn btn-success">Play
+                <button id="play" data-bind="click: play" class="btn btn-success">Play
                 </button>
             </div>
         </div>
@@ -87,27 +70,19 @@
         <div class="panel-body">
             <div class="form-group">
                 <label for="wins">Wins</label>
-                <span id="wins"
-                      data-bind="text: wins() +'/'+total()"
-                      class="badge">0</span>
+                <span id="wins" data-bind="text: wins() +'/'+total()" class="badge">0</span>
             </div>
             <div class="form-group">
                 <label for="loses">Loses</label>
-                <span id="loses"
-                      data-bind="text: loses() +'/'+total()"
-                      class="badge">0</span>
+                <span id="loses" data-bind="text: loses() +'/'+total()" class="badge">0</span>
             </div>
             <div class="form-group">
                 <label for="avgMoves">Average Win Moves</label>
-                <span id="avgMoves"
-                      data-bind="text: avgMoves"
-                      class="badge">0</span>
+                <span id="avgMoves" data-bind="text: avgMoves" class="badge">0</span>
             </div>
             <div class="form-group">
                 <label for="avgWinTime">Average Win Time</label>
-                <span id="avgWinTime"
-                      data-bind="text: avgWinTime"
-                      class="badge">0</span>
+                <span id="avgWinTime" data-bind="text: avgWinTime" class="badge">0</span>
             </div>
         </div>
     </div>
