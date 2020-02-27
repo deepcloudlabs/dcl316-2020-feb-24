@@ -54,6 +54,17 @@ public class EmployeeService {
         return emp;
     }
 
+    @Transactional
+    public Employee deleteEmpByIdentity(String identity) {
+        Optional<Employee> emp =
+                empRepo.findOneByIdentity(identity);
+        if(!emp.isPresent())
+          throw new IllegalArgumentException(
+                     "Cannot find employee to delete!");
+        Employee employee = emp.get();
+        empRepo.delete(employee);
+        return employee;
+    }
 }
 
 

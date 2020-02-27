@@ -31,7 +31,11 @@ public class EmployeeRestController {
         return empSrv.addEmployee(emp);
     }
 
-    // http://localhost:7001/hr/api/v1/employees?page=10&size=25
+    @DeleteMapping("{identity}")
+    public Employee removeEmployeeByIdentity(@PathVariable String identity){
+        return empSrv.deleteEmpByIdentity(identity);
+    }
+
     @GetMapping
     public List<Employee> getEmployees(@RequestParam int page,@RequestParam int size){
         return empSrv.findEmployees(page,size);
@@ -42,4 +46,5 @@ public class EmployeeRestController {
     public Employee getEmployeeByIdentity(@PathVariable String identity){
         return empSrv.findEmpByIdentity(identity);
     }
+
 }
