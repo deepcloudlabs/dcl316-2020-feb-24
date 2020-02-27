@@ -24,21 +24,18 @@ public class RestErrorHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        return ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
-                .collect(Collectors.joining("|"));
+        return ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining("|"));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIllegalArgumentException(
-            IllegalArgumentException e){
+    public String handleIllegalArgumentException(IllegalArgumentException e) {
         return e.getMessage();
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    public String handleExceptionException(
-            RuntimeException e){
+    public String handleExceptionException(RuntimeException e) {
         return e.getMessage();
     }
 }
