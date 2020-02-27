@@ -118,4 +118,17 @@ class HrViewModel {
                 }
             );
     }
+    insertFile = (e, data) => {
+        e.preventDefault();
+        let files = e.target.files || e.originalEvent.dataTransfer.files;
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = (event) => {
+            this.fileData().dataUrl(event.target.result);
+        };
+    };
+
+    dragover = (e) => {
+        e.preventDefault();
+    };
 };
