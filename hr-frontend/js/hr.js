@@ -56,7 +56,21 @@ class HrViewModel {
           .then( emp => toastr.success("Employee is updated"));
 
     }
-
+    removeEmpAtRow = (emp) => {
+        fetch(AppConfig.REST_API_BASE_URL + "/employees/"+emp.identity, {
+            method: "DELETE"
+        }).then( res => res.json())
+            .then( employee => {
+                toastr.success("Employee is deleted");
+                if (employee.photo == null)
+                    employee.photo = AppConfig.NO_IMAGE;
+                this.employee.update(employee);
+                let updatedEmps =
+                    this.employees()
+                        .filter( e => e.identity != emp.identity);
+                this.employees(updatedEmps);
+            });
+    }
     removeEmployee = () => {
         fetch(AppConfig.REST_API_BASE_URL + "/employees/"+this.employee.identity(), {
             method: "DELETE"
