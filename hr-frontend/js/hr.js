@@ -29,12 +29,57 @@ class HrViewModel {
         this.employee = new Employee();
         this.employees = ko.observableArray([]);
     }
+    addEmployee = () => {
+        let emp = ko.toJS(this.employee);
+        emp.photo = toRawImage(emp.photo);
+        fetch(AppConfig.REST_API_BASE_URL + "/employees", {
+            method: "POST",
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify(emp)
+        }).then( res => res.json())
+          .then( emp => toastr.success("Employee is added"));
+
+    }
+
+    updateEmployee = () => {
+        let emp = ko.toJS(this.employee);
+        emp.photo = toRawImage(emp.photo);
+        fetch(AppConfig.REST_API_BASE_URL + "/employees/"+this.employee.identity(), {
+            method: "PUT",
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify(emp)
+        }).then( res => res.json())
+          .then( emp => toastr.success("Employee is updated"));
+
+    }
+
+    removeEmployee = () => {
+        fetch(AppConfig.REST_API_BASE_URL + "/employees/"+this.employee.identity(), {
+            method: "DELETE"
+        }).then( res => res.json())
+          .then( emp => {
+              toastr.success("Employee is deleted");
+              if (emp.photo == null)
+                  emp.photo = AppConfig.NO_IMAGE;
+              this.employee.update(emp);
+          });
+    }
 
     findAllEmps = () => {
         fetch(AppConfig.REST_API_BASE_URL
                +"/employees?page=0&size=25")
             .then( res => res.json())
             .then( emps => {
+                emps.forEach( emp => {
+                    if (emp.photo == null)
+                        emp.photo = AppConfig.NO_IMAGE;
+                    else
+                        emp.photo = toSrcImage(emp.photo)
+                })
                 this.employees(emps);
             });
     }
