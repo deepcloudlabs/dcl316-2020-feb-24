@@ -1,8 +1,8 @@
-var createNumber = function (min, max) {
+let createNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var hasDuplicateDigits = function (number) {
+let hasDuplicateDigits = (number) => {
     var digits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     number = number.toString();
     for (var i = 0; i < number.length; ++i) {
@@ -15,7 +15,7 @@ var hasDuplicateDigits = function (number) {
     return false;
 }
 
-var createSecret = function () {
+let createSecret = () => {
     var candidate;
     do {
         candidate = createNumber(102, 987);
@@ -23,7 +23,7 @@ var createSecret = function () {
     return candidate;
 }
 
-var emptyElement = function (element) {
+let emptyElement = (element) => {
     var node = element;
     while (element.hasChildNodes()) {
         if (node.hasChildNodes()) {
