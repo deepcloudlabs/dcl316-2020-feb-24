@@ -111,8 +111,10 @@
                     <button class="btn btn-info">Add</button>
                     <button class="btn btn-warning">Update</button>
                     <button class="btn btn-danger">Delete</button>
-                    <button class="btn btn-success">Find</button>
-                    <button class="btn btn-success">Find All</button>
+                    <button data-bind="click: findEmployee"
+                            class="btn btn-success">Find</button>
+                    <button data-bind="click: findAllEmps"
+                            class="btn btn-success">Find All</button>
                 </div>
             </div>
         </div>
@@ -136,12 +138,12 @@
                             <th>Operations</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody data-bind="foreach: {data: employees, as: 'emp'}">
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td data-bind="text: $index() + 1"></td>
+                            <td><img data-bind="attr: {src: emp.photo}"> </td>
+                            <td data-bind="text: emp.identity"></td>
+                            <td data-bind="text: emp.fullname"></td>
                             <td></td>
                             <td></td>
                             <td></td>
