@@ -1,14 +1,44 @@
 class Employee {
     constructor() {
-        this.birthYear = ko.observable(2000);
+        this.birthYear = ko.observable(2000)
+                           .extend({ required: true, max: 2004});
         this.department = ko.observable("IT");
-        this.fullname = ko.observable();
+        this.fullname = ko.observable().extend({
+            required: true, minLength : 6
+        });
         this.fulltime = ko.observable(true);
-        this.iban = ko.observable("TR");
-        this.identity = ko.observable("1");
+        this.iban = ko.observable("TR").extend({
+            required: true, iban: true
+        });
+        this.identity = ko.observable("1").extend({
+            required: true, tcKimlikNo: true
+        });;
         this.photo =
             ko.observable(AppConfig.NO_IMAGE);
-        this.salary = ko.observable(2700);
+        this.salary = ko.observable(2700).extend({
+            required: true, min: 2700
+        });
+    }
+
+    validateModel = () => {
+        for (let field in this){
+            let value = this[field];
+            if (ko.isObservable(value) && 'rules' in value){
+                value.isModified(true);
+                ko.validation.validateObservable(value);
+            }
+        }
+    }
+
+    isModelValid = () => {
+        for (let field in this){
+            let value = this[field];
+            if (ko.isObservable(value)
+                && 'rules' in value
+                && !value.isValid())
+                return false;
+        }
+        return true;
     }
 
     update = (emp) => {
@@ -33,7 +63,18 @@ class HrViewModel {
             dataUrl: ko.observable(AppConfig.NO_IMAGE)
         });
     }
-
+    changeLngEn = () => this.changeLng('en');
+    changeLngTr = () => this.changeLng('tr');
+    changeLng = (lng) => {
+        i18n.setLng(lng , t => {
+            this.i18n();
+            knockoutLocalize(lng);
+            this.employee.validateModel();
+        })
+    }
+    i18n = () => {
+        $(document).i18n();
+    }
     addEmployee = () => {
         let emp = ko.toJS(this.employee);
         emp.photo = toRawImage(this.fileData().dataUrl());
@@ -99,6 +140,7 @@ class HrViewModel {
             .then(emps => {
                 emps.forEach(emp => emp.photo = (emp.photo == null) ? AppConfig.NO_IMAGE : toSrcImage(emp.photo))
                 this.employees(emps);
+                this.i18n();
             });
     }
 
