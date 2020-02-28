@@ -3,6 +3,7 @@ class DashboardViewModel {
         // domain related observables
         this.symbol = ko.observable();
         this.windowSize = ko.observable(25);
+        this.monitoring = ko.observable(false);
 
         this.data = {
             labels: ko.observableArray([]),
@@ -33,12 +34,28 @@ class DashboardViewModel {
         this.stompClient.debug = () => {}
         this.stompClient.connect({}, (frame) => {
             toastr.success("WebSocket connection is ready!");
+            this.data.datasets[0].label.push(this.symbol());
             this.stompClient.subscribe(
                 "/topic/changes",
                 (msg) =>{
-                   toastr.success(msg.body);
+                    if (!this.monitoring()) return;
+                   let trade = JSON.parse(msg.body);
+                   this.data.datasets[0].data.push(trade.price);
+                    let now = new Date().toTimeString();
+                    now= now.replace(/.*(\d{2}:\d{2}:\d{2}).*/,'$1');
+                    this.data.labels.push(now);
+                    if (this.data.datasets[0].data().length>this.windowSize()){
+                        let sliceIndex= this.data.datasets[0].data().length
+                            - this.windowSize();
+                        this.data.datasets[0].data(
+                            this.data.datasets[0].data.slice(sliceIndex)
+                        );
+                        this.data.labels(this.data.labels.slice(sliceIndex));
+                    }
                 });
         });
+        this.enableTradingView();
+
     }
     // i18n
     changeLng(lng){
@@ -57,14 +74,57 @@ class DashboardViewModel {
 
     // starts monitoring
     start(){
-        /* TODO: start the monitoring */
+        this.monitoring(true);
         toastr.success(i18n.t("messageMonitoringStarted"), "", AppConfig.TOASTR_CONFIG);
     };
 
     // stops monitoring
     stop(){
-        /* TODO: stop the monitoring */
+        this.monitoring(false);
         toastr.warning(i18n.t("messageMonitoringStoped"), "", AppConfig.TOASTR_CONFIG);
+    };
+    // trading view
+    enableTradingView = () => {
+        new TradingView.widget({
+            'container_id': 'dcl',
+            'width': 800,
+            'height': 600,
+            'symbol': 'BINANCE:BTCUSDT',
+            'interval': 'D',
+            'timezone': 'Etc/UTC',
+            'theme': 'Light',
+            'style': '1',
+            'locale': 'tr',
+            'toolbar_bg': '#f1f3f6',
+            'enable_publishing': false,
+            'withdateranges': true,
+            'hide_side_toolbar': false,
+            'allow_symbol_change': true,
+            'watchlist': [
+                'BINANCE:BTCUSDT',
+                'BINANCE:ETHBTC',
+                'BINANCE:LTCBTC',
+                'BINANCE:XRPBTC',
+                'BINANCE:BCCBTC',
+                'BINANCE:DASHBTC',
+                'BINANCE:ADABTC',
+                'BINANCE:NEOBTC',
+                'BINANCE:EOSBTC',
+                'BINANCE:LTCUSDT',
+                'BINANCE:XRPUSDT',
+                'BINANCE:EOSUSD',
+                'BINANCE:NEOUSDT',
+                'BINANCE:ADAUSDT',
+                'BINANCE:XLMUSD',
+                'BINANCE:XLMBTC'
+            ],
+            'details': true,
+            'hideideas': false,
+            'studies': [
+                'MACD@tv-basicstudies'
+            ],
+            'show_popup_button': false
+        });
     };
 
 };
