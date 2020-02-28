@@ -27,18 +27,10 @@ public class EmployeeRestController {
     private EmployeeService empSrv;
 
     @PutMapping("{identity}")
-    public Employee updateEmployee(
-            @RequestBody @Validated EmployeeUpdateRequest employee,
-            @PathVariable @TcKimlikNo String identity){
-        return empSrv.updateEmployee(identity,employee);
-    }
+    public Employee updateEmployee(@RequestBody @Validated EmployeeUpdateRequest employee, @PathVariable @TcKimlikNo String identity){ return empSrv.updateEmployee(identity,employee); }
 
     @PatchMapping("{identity}")
-    public Employee patchEmployee(
-            @RequestBody Map<String,Object> request,
-            @PathVariable  @TcKimlikNo String identity){
-        return empSrv.patchEmployee(identity,request);
-    }
+    public Employee patchEmployee(@RequestBody Map<String,Object> request, @PathVariable  @TcKimlikNo String identity){ return empSrv.patchEmployee(identity,request); }
 
     @PostMapping
     public Employee createEmployee(@RequestBody @Validated Employee emp){
@@ -46,23 +38,12 @@ public class EmployeeRestController {
     }
 
     @DeleteMapping("{identity}")
-    public Employee removeEmployeeByIdentity(
-            @PathVariable  @TcKimlikNo String identity){
-        return empSrv.deleteEmpByIdentity(identity);
-    }
+    public Employee removeEmployeeByIdentity(@PathVariable  @TcKimlikNo String identity){ return empSrv.deleteEmpByIdentity(identity); }
 
     @GetMapping
-    public List<Employee> getEmployees(
-            @RequestParam @Min(0) int page,
-            @RequestParam @Max(25) int size){
-        return empSrv.findEmployees(page,size);
-    }
+    public List<Employee> getEmployees(@RequestParam @Min(0) int page, @RequestParam @Max(25) int size){ return empSrv.findEmployees(page,size); }
 
-    // http://localhost:7001/hr/api/v1/employees/12345678910
     @GetMapping("{identity}")
-    public Employee getEmployeeByIdentity(
-            @PathVariable @TcKimlikNo String identity){
-        return empSrv.findEmpByIdentity(identity);
-    }
+    public Employee getEmployeeByIdentity(@PathVariable @TcKimlikNo String identity){ return empSrv.findEmpByIdentity(identity); }
 
 }
