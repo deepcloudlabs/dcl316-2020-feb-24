@@ -94,23 +94,16 @@ class HrViewModel {
     }
 
     findAllEmps = () => {
-        fetch(AppConfig.REST_API_BASE_URL
-            + "/employees?page=0&size=25")
+        fetch(`${AppConfig.REST_API_BASE_URL}/employees?page=0&size=25`)
             .then(res => res.json())
             .then(emps => {
-                emps.forEach(emp => {
-                    if (emp.photo == null)
-                        emp.photo = AppConfig.NO_IMAGE;
-                    else
-                        emp.photo = toSrcImage(emp.photo)
-                })
+                emps.forEach(emp => emp.photo = (emp.photo == null) ? AppConfig.NO_IMAGE : toSrcImage(emp.photo))
                 this.employees(emps);
             });
     }
 
     findEmployee = () => {
-        fetch(AppConfig.REST_API_BASE_URL
-            + "/employees/" + this.employee.identity())
+        fetch(`${AppConfig.REST_API_BASE_URL}/employees/${this.employee.identity()}`)
             .then(res => res.json())
             .then(emp => {
                     this.employee.update(emp);
@@ -118,17 +111,15 @@ class HrViewModel {
                 }
             );
     }
+
     insertFile = (e, data) => {
         e.preventDefault();
         let files = e.target.files || e.originalEvent.dataTransfer.files;
         let reader = new FileReader();
         reader.readAsDataURL(files[0]);
-        reader.onload = (event) => {
-            this.fileData().dataUrl(event.target.result);
-        };
+        reader.onload = event => this.fileData().dataUrl(event.target.result);
     };
 
-    dragover = (e) => {
-        e.preventDefault();
-    };
+    dragover = e => e.preventDefault();
+
 };
