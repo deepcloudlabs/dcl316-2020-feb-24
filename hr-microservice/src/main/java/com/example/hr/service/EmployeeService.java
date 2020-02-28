@@ -6,7 +6,6 @@ import com.example.hr.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ public class EmployeeService {
                 .getContent();
     }
 
-    @Transactional(rollbackFor = IllegalArgumentException.class)
     public Employee updateEmployee(String identity, EmployeeUpdateRequest employee) {
         Optional<Employee> emp =
                 empRepo.findOneByIdentity(identity);
@@ -42,11 +40,10 @@ public class EmployeeService {
         managed.setPhoto(employee.getPhoto());
         managed.setFulltime(employee.isFulltime());
         managed.setDepartment(employee.getDepartment());
-        //    empRepo.save(managed);
+        empRepo.save(managed);
         return managed;
     }
 
-    @Transactional
     public Employee addEmployee(Employee emp) {
         Optional<Employee> employee =
                 empRepo.findOneByIdentity(emp.getIdentity());
@@ -56,7 +53,6 @@ public class EmployeeService {
         return emp;
     }
 
-    @Transactional
     public Employee deleteEmpByIdentity(String identity) {
         Optional<Employee> emp =
                 empRepo.findOneByIdentity(identity);
@@ -68,7 +64,6 @@ public class EmployeeService {
         return employee;
     }
 
-    @Transactional
     public Employee patchEmployee(String identity,
                                   Map<String, Object> request) {
         Optional<Employee> emp = empRepo.findOneByIdentity(identity);

@@ -11,7 +11,7 @@ public class EmployeeUpdateRequest {
     private double salary;
     @Iban
     private String iban;
-    private byte[] photo;
+    private String photo;
     @AssertTrue
     private boolean fulltime;
     private Department department;
@@ -35,11 +35,11 @@ public class EmployeeUpdateRequest {
         this.iban = iban;
     }
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

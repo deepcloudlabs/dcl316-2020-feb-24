@@ -2,23 +2,18 @@ package com.example.hr.entity;
 
 import com.example.hr.validation.Iban;
 import com.example.hr.validation.TcKimlikNo;
-import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-import java.util.Objects;
 
-@Entity
-@Table(name="employees")
-@DynamicUpdate
+@Document(collection = "employees")
 public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @TcKimlikNo
+    @Id
     private String identity;
     @Size(min=3)
     private String fullname;
@@ -26,28 +21,17 @@ public class Employee {
     private double salary;
     @Iban
     private String iban;
-    @Lob
-    @Column(columnDefinition = "longblob")
-    private byte[] photo;
-    @Column(name="birth_year")
+    private String photo;
     @Max(2004)
     private int birthYear;
     @AssertTrue
     private boolean fulltime;
-    @Enumerated(EnumType.STRING)
     private Department department;
 
     public Employee() {
     }
 
     //region getters/setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getIdentity() {
         return identity;
@@ -81,11 +65,11 @@ public class Employee {
         this.iban = iban;
     }
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
@@ -114,24 +98,11 @@ public class Employee {
     }
     //endregion
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "id=" + id +
-                ", identity='" + identity + '\'' +
+                "identity='" + identity + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", salary=" + salary +
                 ", iban='" + iban + '\'' +
