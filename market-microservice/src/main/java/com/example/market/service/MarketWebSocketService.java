@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MarketWebSocketService {
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    @Autowired private SimpMessagingTemplate messagingTemplate;
 
     @EventListener
     public void listen(Trade trade){
